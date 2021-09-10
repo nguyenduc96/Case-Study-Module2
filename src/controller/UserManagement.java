@@ -73,7 +73,7 @@ public class UserManagement implements IManagement<User> {
                         "\nHọ và tên : " + user.getFullName() + "\nEmail : " + user.getEmail() +
                         "\nĐịa chỉ : " + user.getAddress() + "\nSố điện thoại : " + user.getNumberPhone() +
                         "\nGiới tính : " + user.getSex() + "\nQuyền hạn : " + user.getRole() +
-                        "\nTrạng thái tài khoản : " + user.getStatus() + "\n" + user.getBills());
+                        "\nTrạng thái tài khoản : " + user.getStatus() + "\n" + user.getCarts() + "\n" + user.getBills());
             }
         }
     }
