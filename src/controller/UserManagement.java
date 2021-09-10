@@ -35,45 +35,33 @@ public class UserManagement implements IManagement<User> {
         }
     }
 
+    public String displayInfoUser(User user) {
+        return "THÔNG TIN TÀI KHOẢN " + "\nTên đăng nhập : " + user.getUseName() +
+                "\nHọ và tên : " + user.getFullName() + "\nEmail : " + user.getEmail() +
+                "\nĐịa chỉ : " + user.getAddress() + "\nSố điện thoại : " + user.getNumberPhone() +
+                "\nGiới tính : " + user.getSex() + "\nQuyền hạn : " + user.getRole() +
+                "\nTrạng thái tài khoản : " + user.getStatus();
+    }
+
     public void displayUserWithIndex(int index) {
         User user = users.get(index);
         if (user.getRole().equals(ADMIN)) {
-            System.out.println("THÔNG TIN TÀI KHOẢN " + "\nTên đăng nhập : " + user.getUseName() +
-                    "\nHọ và tên : " + user.getFullName() + "\nEmail : " + user.getEmail() +
-                    "\nĐịa chỉ : " + user.getAddress() + "\nSố điện thoại : " + user.getNumberPhone() +
-                    "\nGiới tính : " + user.getSex() + "\nQuyền hạn : " + user.getRole() +
-                    "\nTrạng thái tài khoản : " + user.getStatus());
+            System.out.println(displayInfoUser(user));
         }
         boolean checkCart = user.getCarts() == null;
         boolean checkBill = user.getBills() == null;
         boolean checkCustomer = user.getRole().equals(CUSTOMER);
         if (checkCart && checkCustomer) {
             if (checkBill) {
-                System.out.println("THÔNG TIN TÀI KHOẢN " + "\nTên đăng nhập : " + user.getUseName() +
-                        "\nHọ và tên : " + user.getFullName() + "\nEmail : " + user.getEmail() +
-                        "\nĐịa chỉ : " + user.getAddress() + "\nSố điện thoại : " + user.getNumberPhone() +
-                        "\nGiới tính : " + user.getSex() + "\nQuyền hạn : " + user.getRole() +
-                        "\nTrạng thái tài khoản : " + user.getStatus() + "\nCHƯA CÓ ĐƠN HÀNG NÀO");
+                System.out.println(displayInfoUser(user) + "\nCHƯA CÓ ĐƠN HÀNG NÀO");
             } else {
-                System.out.println("THÔNG TIN TÀI KHOẢN " + "\nTên đăng nhập : " + user.getUseName() +
-                        "\nHọ và tên : " + user.getFullName() + "\nEmail : " + user.getEmail() +
-                        "\nĐịa chỉ : " + user.getAddress() + "\nSố điện thoại : " + user.getNumberPhone() +
-                        "\nGiới tính : " + user.getSex() + "\nQuyền hạn : " + user.getRole() +
-                        "\nTrạng thái tài khoản : " + user.getStatus() + "\n" + user.getBills());
+                System.out.println(displayInfoUser(user) + "\n" + user.getBills());
             }
         } else if (!checkCart && checkCustomer) {
             if (checkBill) {
-                System.out.println("THÔNG TIN TÀI KHOẢN " + "\nTên đăng nhập : " + user.getUseName() +
-                        "\nHọ và tên : " + user.getFullName() + "\nEmail : " + user.getEmail() +
-                        "\nĐịa chỉ : " + user.getAddress() + "\nSố điện thoại : " + user.getNumberPhone() +
-                        "\nGiới tính : " + user.getSex() + "\nQuyền hạn : " + user.getRole() +
-                        "\nTrạng thái tài khoản : " + user.getStatus() + "\n" + user.getCarts());
+                System.out.println(displayInfoUser(user) + "\n" + user.getCarts());
             } else {
-                System.out.println("THÔNG TIN TÀI KHOẢN " + "\nTên đăng nhập : " + user.getUseName() +
-                        "\nHọ và tên : " + user.getFullName() + "\nEmail : " + user.getEmail() +
-                        "\nĐịa chỉ : " + user.getAddress() + "\nSố điện thoại : " + user.getNumberPhone() +
-                        "\nGiới tính : " + user.getSex() + "\nQuyền hạn : " + user.getRole() +
-                        "\nTrạng thái tài khoản : " + user.getStatus() + "\n" + user.getCarts() + "\n" + user.getBills());
+                System.out.println(displayInfoUser(user) + "\n" + user.getCarts() + "\n" + user.getBills());
             }
         }
     }

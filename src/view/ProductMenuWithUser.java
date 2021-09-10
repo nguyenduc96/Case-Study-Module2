@@ -87,11 +87,11 @@ public class ProductMenuWithUser {
                     break;
                 }
                 case 3: {
-                    cartManagement.displayAll();
+                    displayCartWithUser(user);
                     break;
                 }
                 case 4: {
-                    billManagement.displayAll();
+                    displayBillWithUser(user);
                     break;
                 }
                 case 0: {
@@ -106,6 +106,28 @@ public class ProductMenuWithUser {
         } while (choice != 0);
     }
 
+    private void displayBillWithUser(User user) {
+        List<Bill> bills = user.getBills();
+        if (bills == null) {
+            System.out.println("CHƯA CÓ ĐƠN HÀNG NÀO");
+        } else {
+            for (Bill bill : bills) {
+                System.out.println(bill);
+            }
+        }
+    }
+
+    private void displayCartWithUser(User user) {
+        List<Cart> carts = user.getCarts();
+        if (carts == null || carts.size() == 0) {
+            System.out.println("KHÔNG CÓ ĐƠN HÀNG NÀO TRONG GIỎ");
+        } else {
+            for (Cart cart : carts) {
+                System.out.println(cart);
+            }
+        }
+    }
+
     private void manageCart(User user) {
         int choice;
         do {
@@ -113,11 +135,11 @@ public class ProductMenuWithUser {
             choice = getChoice();
             switch (choice) {
                 case 1: {
-                    cartManagement.displayAll();
+                    displayCartWithUser(user);
                     break;
                 }
                 case 2: {
-                    deleteCart();
+                    deleteCart(user);
                     break;
                 }
                 case 3: {
@@ -142,30 +164,48 @@ public class ProductMenuWithUser {
 
     private void updateCartInfo(User user) {
         List<Cart> carts = user.getCarts();
-        if (carts == null) {
+        if (carts == null || carts.size() == 0) {
             System.out.println("Giỏ hàng đang trống không có gì chỉnh sửa");
         } else {
             System.out.println("Nhập mã sản phẩm của đơn hàng cần sửa : ");
             String id = scanner.nextLine();
-            int index = cartManagement.findIndex(id);
-            if (index == -1) {
-                System.out.println("Không có đơn hàng này");
+            int indexInListCart = cartManagement.findIndex(id);
+            if (indexInListCart != -1) {
+                Cart cart = cartManagement.getCarts().get(indexInListCart);
+                int indexCartWithUser = carts.indexOf(cart);
+                if (indexCartWithUser == -1) {
+                    System.out.println("KHÔNG CÓ ĐƠN HÀNG NÀY");
+                } else {
+                    System.out.println("CHỈNH SỬA ĐƠN HÀNG");
+                    Cart cartEdit = billAndCart.editCartInfo();
+                    carts.set(indexCartWithUser, cartEdit);
+                }
             } else {
-                System.out.println("CHỈNH SỬA ĐƠN HÀNG");
-                Cart cart = billAndCart.editCartInfo();
-                cartManagement.update(index, cart);
+                System.out.println("KHÔNG THẤY SẢN PHẨM NÀY");
             }
         }
     }
 
-    private void deleteCart() {
-        System.out.println("Nhập mã sản phẩm : ");
-        String id = scanner.nextLine();
-        int index = cartManagement.findIndex(id);
-        if (index == -1) {
-            System.out.println("Không có đơn hàng này");
+    private void deleteCart(User user) {
+        List<Cart> carts = user.getCarts();
+        if (carts == null || carts.size() == 0) {
+            System.out.println("Giỏ hàng đang trống không có gì để xóa");
         } else {
-            cartManagement.delete(index);
+            System.out.println("Nhập mã sản phẩm của đơn hàng cần xóa : ");
+            String id = scanner.nextLine();
+            int indexInListCart = cartManagement.findIndex(id);
+            if (indexInListCart != -1) {
+                Cart cart = cartManagement.getCarts().get(indexInListCart);
+                int indexCartWithUser = carts.indexOf(cart);
+                if (indexCartWithUser == -1) {
+                    System.out.println("KHÔNG CÓ ĐƠN HÀNG NÀY");
+                } else {
+                    carts.remove(indexCartWithUser);
+                    System.out.println("ĐÃ XÓA");
+                }
+            } else {
+                System.out.println("KHÔNG THẤY SẢN PHẨM NÀY");
+            }
         }
     }
 
@@ -216,13 +256,37 @@ public class ProductMenuWithUser {
         System.out.println("TÌM KIẾM SẢN PHẨM");
         System.out.println("Nhập vào tên sản phẩm : ");
         String name = scanner.nextLine();
-        for (Product product : productManagement.getProducts()) {
-            if (name.toUpperCase().contains(product.getName().toUpperCase())) {
+        boolean checkFindName = checkFindProductWitName(name);
+        if (checkFindName) {
+            for (Product product : productManagement.getProducts()) {
                 System.out.println(product);
             }
-            System.out.println("Không tìm thấy sản phẩm nào");
-            break;
+        } else {
+            System.out.println("KHÔNG TÌM THẤY SẢN PHẨM NÀO CÓ TÊN TƯƠNG TỰ " + name);
         }
+    }
+
+    private boolean checkFindProductWitName(String name) {
+        for (Product product : productManagement.getProducts()) {
+            boolean check = checkStringFind(product.getName(), name);
+            if (check) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private boolean checkStringFind(String stringFind, String name) {
+        String[] strings = stringFind.split("");
+        String[] stringName = name.split("");
+        for (int i = 0; i < strings.length; i++) {
+            for (int j = 0; j < stringName.length; j++) {
+                if (strings[i].equals(stringName[j])) {
+                    return true;
+                }
+            }
+        }
+        return false;
     }
 
     private void displayWithPrice() {
@@ -278,7 +342,7 @@ public class ProductMenuWithUser {
                     break;
                 }
                 case 2: {
-                    productManagement.displayWithCompanyProduct(LAPTOP);
+                    productManagement.displayWithTypeProduct(LAPTOP);
                     break;
                 }
                 case 3: {

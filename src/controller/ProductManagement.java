@@ -20,20 +20,42 @@ public class ProductManagement implements IManagement<Product> {
     }
 
     public void displayWithTypeProduct(String type) {
-        for (int i = 0; i < products.size(); i++) {
-            Product product = products.get(i);
-            if (type.contains(product.getType())) {
+        boolean checkType = checkTypeInListProduct(type);
+        if (checkType) {
+            for (Product product : products) {
                 System.out.println(product);
             }
+        } else {
+            System.out.println("HIỆN TẠI CHƯA CÓ SẢN PHẨM NÀO CỦA LOẠI HÀNG NÀY");
         }
     }
 
-    public void displayWithCompanyProduct(String company) {
-        for (int i = 0; i < products.size(); i++) {
-            Product product = products.get(i);
+    public boolean checkTypeInListProduct(String type) {
+        for (Product product : products) {
+            if (type.contains(product.getType())) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public boolean checkCompanyInListProduct(String company) {
+        for (Product product : products) {
             if (company.contains(product.getCompany())) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public void displayWithCompanyProduct(String company) {
+        boolean checkCompany = checkCompanyInListProduct(company);
+        if (checkCompany) {
+            for (Product product : products) {
                 System.out.println(product);
             }
+        } else {
+            System.out.println("HIỆN TẠI CHƯA CÓ SẢN PHẨM NÀO CỦA HÃNG NÀY");
         }
     }
 
