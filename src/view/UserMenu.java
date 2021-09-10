@@ -377,6 +377,7 @@ public class UserMenu {
     private void createStaffAccount() {
         User user = createUser();
         user.setRole(ADMIN);
+        user.setStatus(ACTIVE);
         userManagement.addNew(user);
         productMenuWithUser.writeFile();
     }
