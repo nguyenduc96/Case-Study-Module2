@@ -204,6 +204,7 @@ public class UserMenu {
     }
 
     private void showUserInfo(User user) {
+//        System.out.println(user);
         int index = userManagement.findIndex(user.getUseName());
         userManagement.displayUserWithIndex(index);
     }
